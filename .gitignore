@@ -95,5 +95,8 @@ ENV/
 # Rope project settings
 .ropeproject
 
+# Sqlite files
+*.sqlite*
+
 # Pycharm files
 .idea/
