@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'tenant_schemas',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -38,9 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'common.common',
+    'customers',
 ]
 
 MIDDLEWARE = [
+    'tenant_schemas.middleware.TenantMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -77,7 +80,7 @@ WSGI_APPLICATION = 'ssms.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, '../../db.sqlite3'),
     }
 }
 
@@ -123,4 +126,14 @@ STATIC_URL = '/static/'
 
 # App specific settings
 UPLOAD_AVATARS_TO = '/media/avatars'
-AUTH_USER_MODEL = 'common.common.models.CommonUser'
+AUTH_USER_MODEL = 'common.ExtendedUser'
+
+
+TENANT_MODEL = "customers.Client"
+
+TENANT_APPS = [
+    'common.common'
+]
+
+SHARED_APPS = ['customers']
+DEFAULT_FILE_STORAGE = 'tenant_schemas.storage.TenantFileSystemStorage'

@@ -100,3 +100,5 @@ ENV/
 
 # Pycharm files
 .idea/
+
+# Migrations

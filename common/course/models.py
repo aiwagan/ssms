@@ -5,9 +5,6 @@ from django.db import models
 from common.common.models import AuditTrailCreatedUpdatedMixin, ActiveMixin, NameMixin
 
 
-# Create your models here.
-
-
 class AcademicYear(AuditTrailCreatedUpdatedMixin, ActiveMixin):
     """
 

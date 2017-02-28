@@ -1,14 +1,13 @@
 from __future__ import unicode_literals
 
+from django.conf import settings
 from django.db import models
 
-from common.common.models import AuditTrailCreatedUpdatedMixin, ActiveMixin, CommonAbstractUser
+from common.common.models import AuditTrailCreatedUpdatedMixin, ActiveMixin
 from common.course.models import AcademicYear, Term, Subject
 
-# Create your models here.
 
-
-class Student(CommonAbstractUser, AuditTrailCreatedUpdatedMixin, ActiveMixin):
+class Student(settings.AUTH_USER_MODEL, AuditTrailCreatedUpdatedMixin, ActiveMixin):
     """
 
     """
