@@ -51,3 +51,25 @@ class NameMixin(models.Model):
 
     class Meta:
         abstract = True
+
+
+class BaseDocumentMixin(AuditTrailCreatedUpdatedMixin):
+    """
+
+    """
+    mongo_id = models.CharField(max_length=100)
+    document_type = models.CharField(max_length=10)
+
+    class Meta:
+        abstract = True
+
+
+class QRCodeMixin(models.Model):
+    """
+
+    """
+    qr_code_text = models.CharField(max_length=200)
+    qr_code = models.FilePathField(max_length=200)
+
+    class Meta:
+        abstract = True

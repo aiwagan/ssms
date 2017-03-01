@@ -3,31 +3,29 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.db import models
 
+from common.common.models import AuditTrailCreatedUpdatedMixin, BaseDocumentMixin, ActiveMixin, QRCodeMixin
 
-class Employee(settings.AUTH_USER_MODEL):
+
+class Employee(settings.AUTH_USER_MODEL, AuditTrailCreatedUpdatedMixin, ActiveMixin, QRCodeMixin):
     """
 
     """
+    employee_type = models.CharField(max_length=1)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
 
 
-class EmployeeSubjects(models.Model):
+class EmployeeSubjects(AuditTrailCreatedUpdatedMixin, ActiveMixin):
     """
 
     """
+    employee = models.ForeignKey(Employee)
 
 
-class EmployeeClass(models.Model):
+class EmployeeClass(AuditTrailCreatedUpdatedMixin, ActiveMixin):
     """
     """
+    employee = models.ForeignKey(Employee)
 
 
-class Teacher(settings.AUTH_USER_MODEL):
-    """
-
-    """
-    def __init__(self, *args, **kwargs):
-        super(Teacher, self).__init__(*args, **kwargs)
-        self.user_type = 'T'
-
-    class Meta:
-        proxy = True
+class EmployeeDocument(BaseDocumentMixin):
+    employee = models.ForeignKey(Employee)

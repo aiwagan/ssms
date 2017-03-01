@@ -1,0 +1,5 @@
+OCR:
+http://stackoverflow.com/a/14419669/1190270
+https://web.archive.org/web/20141022033241/http://craiget.com/extracting-table-data-from-pdfs-with-ocr/
+
+http://stackoverflow.com/questions/27233351/how-to-decode-a-qr-code-image-in-preferably-pure-python

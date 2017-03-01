@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+#!/usr/bin/env bash
 # Installing dependent libraries
 sudo yum groupinstall "Development Tools"
 sudo yum install libxslt libxslt-devel libxml libxml-devel
@@ -21,5 +23,4 @@ sudo vim /var/lib/pgsql/data/pg_hba.conf
 sudo vim /var/lib/pgsql/9.6/data/postgresql.conf
 sudo systemctl start postgresql-9.6
 sudo systemctl enable postgresql-9.6
-
 

@@ -16,9 +16,11 @@ class ExtendedUser(AbstractUser):
     alternate_country_code = models.IntegerField(default=91)
     dob = models.DateField()
     gender = models.CharField(max_length=1, choices=constants.GENDER_CHOICES)
-    photo = models.FileField(upload_to=settings.UPLOAD_AVATARS_TO)
+    photo = models.ImageField(upload_to=settings.UPLOAD_AVATARS_TO)
     blood_group = models.CharField(max_length=10, choices=constants.BLOOD_GROUP_CHOICES)
     user_type = models.CharField(max_length=1, choices=constants.USER_TYPE_CHOICES)
+    qr_text = models.CharField(max_length=100)
+    qr_link = models.FilePathField()
 
 
 class Address(AuditTrailCreatedUpdatedMixin):
