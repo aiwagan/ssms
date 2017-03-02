@@ -3,8 +3,9 @@ from __future__ import unicode_literals
 from django.conf import settings
 from django.db import models
 
-from common.common.models import AuditTrailCreatedUpdatedMixin, ActiveMixin, BaseDocumentMixin, QRCodeMixin
-from common.course.models import AcademicYear, Term, Subject
+from common.common.models import AuditTrailCreatedUpdatedMixin, ActiveMixin, BaseDocumentMixin, QRCodeMixin, NameMixin
+from common.course.models import Term, Subject
+from common.school.models import AcademicClass
 
 
 class Student(settings.AUTH_USER_MODEL, AuditTrailCreatedUpdatedMixin, ActiveMixin, QRCodeMixin):
@@ -14,24 +15,30 @@ class Student(settings.AUTH_USER_MODEL, AuditTrailCreatedUpdatedMixin, ActiveMix
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
 
 
-class StudentSubscriptions(AuditTrailCreatedUpdatedMixin, ActiveMixin):
-    student = models.ForeignKey(Student)
+class AcademicClassStudent(AuditTrailCreatedUpdatedMixin, ActiveMixin, QRCodeMixin):
+    student = models.ForeignKey(Student, unique=True)
+    academic_class = models.ForeignKey(AcademicClass)
 
 
-class StudentTermPerformance(AuditTrailCreatedUpdatedMixin, ActiveMixin):
+class StudentSubscription(NameMixin, AuditTrailCreatedUpdatedMixin, ActiveMixin):
+    academic_class_student = models.ForeignKey(AcademicClassStudent)
+    start_date = models.DateField()
+    end_date = models.DateField()
+
+
+class StudentTermPerformance(AuditTrailCreatedUpdatedMixin, ActiveMixin, QRCodeMixin):
     term = models.ForeignKey(Term)
-    student = models.ForeignKey(Student)
+    academic_class_student = models.ForeignKey(AcademicClassStudent)
 
 
-class StudentTermSubjectPerformance(models.Model):
+class StudentTermSubjectPerformance(AuditTrailCreatedUpdatedMixin, ActiveMixin, QRCodeMixin):
     subject = models.ForeignKey(Subject)
     marks = models.DecimalField(decimal_places=3, max_digits=2)
     student_term = models.ForeignKey(StudentTermPerformance)
-    student = models.ForeignKey(Student)
 
 
 class StudentDocument(BaseDocumentMixin):
     """
 
     """
-    student = models.ForeignKey(Student)
+    academic_class_student = models.ForeignKey(AcademicClassStudent)

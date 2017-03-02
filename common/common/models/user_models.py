@@ -3,10 +3,10 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 from common.common import constants
-from common.common.models import AuditTrailCreatedUpdatedMixin, AuditTrailUpdatedMixin
+from common.common.models import AuditTrailCreatedUpdatedMixin, QRCodeMixin, ActiveMixin
 
 
-class ExtendedUser(AbstractUser):
+class ExtendedUser(AbstractUser, QRCodeMixin):
     """
 
     """
@@ -19,11 +19,9 @@ class ExtendedUser(AbstractUser):
     photo = models.ImageField(upload_to=settings.UPLOAD_AVATARS_TO)
     blood_group = models.CharField(max_length=10, choices=constants.BLOOD_GROUP_CHOICES)
     user_type = models.CharField(max_length=1, choices=constants.USER_TYPE_CHOICES)
-    qr_text = models.CharField(max_length=100)
-    qr_link = models.FilePathField()
 
 
-class Address(AuditTrailCreatedUpdatedMixin):
+class Address(AuditTrailCreatedUpdatedMixin, ActiveMixin):
     """
 
     """
@@ -37,7 +35,7 @@ class Address(AuditTrailCreatedUpdatedMixin):
     address_type = models.CharField(max_length=1, choices=constants.ADDRESS_TYPE_CHOICES)
 
 
-class PhoneNumber(AuditTrailCreatedUpdatedMixin):
+class PhoneNumber(AuditTrailCreatedUpdatedMixin, ActiveMixin):
     """
 
     """
