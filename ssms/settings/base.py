@@ -127,6 +127,7 @@ STATIC_URL = '/static/'
 # App specific settings
 UPLOAD_AVATARS_TO = '/media/avatars'
 AUTH_USER_MODEL = 'common.ExtendedUser'
+UPLOAD_TO_TENANT_DIR = '/media/tenant/'
 
 
 TENANT_MODEL = "customers.Client"

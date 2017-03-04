@@ -2,9 +2,51 @@ from __future__ import unicode_literals
 
 from django.conf import settings
 from django.db import models
+import qrcode
+import StringIO
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 
-class AuditTrailCreatedMixin(models.Model):
+class BaseModel(models.Model):
+    """
+
+    """
+    def populate_values(self, exclude=None):
+        """
+        Method that tries to populate values for fields that are dependent on other fields.
+
+        Returns:
+
+        """
+        if exclude is None:
+            exclude = []
+
+        for field in self._meta.fields:
+            if field.name in exclude:
+                continue
+
+            # Get populate function for the field and call it.
+            populate_func = getattr(self, 'populate_{}'.format(field.attrname), None)
+            if not populate_func:
+                continue
+
+            populate_func(field)
+
+    def save(self, *args, **kwargs):
+        """
+        Calls the methods to dynamically populate field values and saves the data
+        Args:
+            *args:
+            **kwargs:
+
+        Returns:
+
+        """
+        self.populate_values()
+        super(BaseModel, self).save(*args, **kwargs)
+
+
+class AuditTrailCreatedMixin(BaseModel):
     """
 
     """
@@ -15,7 +57,7 @@ class AuditTrailCreatedMixin(models.Model):
         abstract = True
 
 
-class AuditTrailUpdatedMixin(models.Model):
+class AuditTrailUpdatedMixin(BaseModel):
     """
 
     """
@@ -33,7 +75,7 @@ class AuditTrailCreatedUpdatedMixin(AuditTrailCreatedMixin, AuditTrailUpdatedMix
     pass
 
 
-class ActiveMixin(models.Model):
+class ActiveMixin(BaseModel):
     """
 
     """
@@ -43,7 +85,7 @@ class ActiveMixin(models.Model):
         abstract = True
 
 
-class NameMixin(models.Model):
+class NameMixin(BaseModel):
     """
 
     """
@@ -64,12 +106,82 @@ class BaseDocumentMixin(AuditTrailCreatedUpdatedMixin):
         abstract = True
 
 
-class QRCodeMixin(models.Model):
+class QRCodeMixin(BaseModel):
     """
-
+        QRCODE_COMBINATION_FIELDS - List of fields that generator uses to generate QR code
+        QRCODE_COMBINATION_SEPARATOR - Separator for QRCODE combination Text
     """
     qr_code_text = models.CharField(max_length=200)
-    qr_code = models.FilePathField(max_length=200)
+    qr_code_img = models.ImageField(upload_to=settings.UPLOAD_TO_TENANT_DIR)
+    qr_code_url_text = models.URLField(max_length=200, blank=True, null=True)
+    qr_code_url_img = models.ImageField(upload_to=settings.UPLOAD_TO_TENANT_DIR, blank=True, null=True)
+
+    QRCODE_TEXT_COMBINATION_FIELDS = []
+    QRCODE_COMBINATION_SEPARATOR = '-'
 
     class Meta:
         abstract = True
+
+    # TODO: To be made async
+    def generate_qr_code(self, data, field):
+        """
+
+        """
+        qrcode_img = qrcode.QRCode(version=1,
+                                   error_correction=qrcode.constants.ERROR_CORRECT_L,)
+        qrcode_img.add_data(data)
+        qrcode_img.make(fit=True)
+        img = qrcode_img.make_image()
+        buffer = StringIO.StringIO()
+        img.save(buffer)
+
+        filename = '{}.png'.format(data)
+        file_buffer = InMemoryUploadedFile(buffer, None, filename, 'image/png', buffer.len, None)
+        field.save(filename, file_buffer)
+
+    def populate_qr_code_text(self, field):
+        """
+
+        Returns:
+
+        """
+        combination_fields = getattr(self, 'QRCODE_COMBINATION_FIELDS', None)
+
+        combination_sep = getattr(self, 'QRCODE_COMBINATION_FIELDS', None)
+        if not combination_fields or not combination_sep:
+            raise ValueError('Model attributes QRCODE_COMBINATION_FIELDS, QRCODE_COMBINATION_FIELDS must be set')
+
+        combination_values = map(lambda f: getattr(self, f, ''), combination_fields)
+        setattr(self, field.attrname, '{}'.format(combination_sep).join(combination_values))
+
+    def populate_qr_code_img(self, field):
+        """
+
+        Returns:
+
+        """
+        qr_code_text = getattr(self, 'qr_code_text', None)
+        if not qr_code_text:
+            return
+
+        self.generate_qr_code(qr_code_text, field)
+
+    def populate_qr_code_url_text(self, field):
+        """
+
+        Returns:
+
+        """
+        setattr(self, field.attrname, self.get_absolute_url())
+
+    def populate_qr_code_url_img(self, field):
+        """
+
+        Returns:
+
+        """
+        qr_code_url_text = getattr(self, 'qr_code_url_text', None)
+        if not qr_code_url_text:
+            return
+
+        self.generate_qr_code(qr_code_url_text, field)
