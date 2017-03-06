@@ -13,3 +13,9 @@ DATABASES = {
 DATABASE_ROUTERS = (
     'tenant_schemas.routers.TenantSyncRouter',
 )
+
+INSTALLED_APPS += ['django_extensions', ]
+GRAPH_MODELS = {
+  'all_applications': True,
+  'group_models': True,
+}

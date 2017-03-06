@@ -38,8 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'common.common',
     'customers',
+    'common.common',
+    'common.school',
+    'common.course',
+    'common.employee',
+    'common.student',
 ]
 
 MIDDLEWARE = [
@@ -133,7 +137,18 @@ UPLOAD_TO_TENANT_DIR = '/media/tenant/'
 TENANT_MODEL = "customers.Client"
 
 TENANT_APPS = [
-    'common.common'
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'customers',
+    'common.common',
+    'common.school',
+    'common.course',
+    'common.employee',
+    'common.student',
 ]
 
 SHARED_APPS = ['customers']

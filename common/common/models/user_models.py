@@ -19,9 +19,11 @@ class ExtendedUser(AbstractUser, QRCodeMixin):
     photo = models.ImageField(upload_to=settings.UPLOAD_AVATARS_TO)
     blood_group = models.CharField(max_length=10, choices=constants.BLOOD_GROUP_CHOICES)
     user_type = models.CharField(max_length=1, choices=constants.USER_TYPE_CHOICES)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='user_created_by')
+    updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='user_updated_by')
 
 
-class Address(AuditTrailCreatedUpdatedMixin, ActiveMixin):
+class Address(ActiveMixin):
     """
 
     """
@@ -33,6 +35,10 @@ class Address(AuditTrailCreatedUpdatedMixin, ActiveMixin):
     country = models.CharField(max_length=30)
     zip_code = models.IntegerField()
     address_type = models.CharField(max_length=1, choices=constants.ADDRESS_TYPE_CHOICES)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='address_crd_by')
+    created_date_time = models.DateTimeField(auto_now_add=True)
+    updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='address_upd_by')
+    updated_date_time = models.DateTimeField(auto_now_add=True)
 
 
 class PhoneNumber(AuditTrailCreatedUpdatedMixin, ActiveMixin):
@@ -45,3 +51,7 @@ class PhoneNumber(AuditTrailCreatedUpdatedMixin, ActiveMixin):
     area_code = models.IntegerField()
     phone_number = models.IntegerField()
     phone_number_type = models.CharField(max_length=1, choices=constants.PHONE_NUMBER_TYPE_CHOICES)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='phone_crd_by')
+    created_date_time = models.DateTimeField(auto_now_add=True)
+    updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='phone_upd_by')
+    updated_date_time = models.DateTimeField(auto_now_add=True)

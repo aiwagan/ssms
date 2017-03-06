@@ -1,5 +1,39 @@
 OCR:
+================
 http://stackoverflow.com/a/14419669/1190270
 https://web.archive.org/web/20141022033241/http://craiget.com/extracting-table-data-from-pdfs-with-ocr/
 
 http://stackoverflow.com/questions/27233351/how-to-decode-a-qr-code-image-in-preferably-pure-python
+
+
+Setup Client:
+===============
+from customers.models import Client
+
+# create your public tenant
+tenant = Client(domain_url='tenant1.localhost',
+                schema_name='tenant1',
+                name='My First Tenant',
+                )
+tenant.save()
+tenant = Client(domain_url='tenant2.localhost',
+                schema_name='tenant2',
+                name='My Second Tenant',
+                )
+
+Delete all migrations files:
+===========================
+rm /home/vagrant/.virtualenvs/ssms/lib/python2.7/site-packages/django/contrib/auth/migrations/00*
+rm /home/vagrant/.virtualenvs/ssms/lib/python2.7/site-packages/django/contrib/admin/migrations/00*
+rm /home/vagrant/.virtualenvs/ssms/lib/python2.7/site-packages/django/contrib/contenttypes/migrations/00*
+rm /home/vagrant/.virtualenvs/ssms/lib/python2.7/site-packages/django/contrib/messages/migrations/00*
+
+
+DROP DATABASE:
+==============
+sudo su - postgres
+psql
+DROP DATABASE ssms;
+CREATE DATABASE ssms;
+GRANT ALL PRIVILEGES ON DATABASE ssms TO ssms;
+GRANT ALL PRIVILEGES ON DATABASE ssms TO postgres;

@@ -45,6 +45,9 @@ class BaseModel(models.Model):
         self.populate_values()
         super(BaseModel, self).save(*args, **kwargs)
 
+    class Meta:
+        abstract = True
+
 
 class AuditTrailCreatedMixin(BaseModel):
     """
@@ -72,7 +75,9 @@ class AuditTrailCreatedUpdatedMixin(AuditTrailCreatedMixin, AuditTrailUpdatedMix
     """
 
     """
-    pass
+
+    class Meta:
+        abstract = True
 
 
 class ActiveMixin(BaseModel):
@@ -95,7 +100,15 @@ class NameMixin(BaseModel):
         abstract = True
 
 
-class BaseDocumentMixin(AuditTrailCreatedUpdatedMixin):
+class AuditTrailActiveNameMixin(NameMixin, ActiveMixin, AuditTrailCreatedUpdatedMixin):
+    """
+
+    """
+    class Meta:
+        abstract = True
+
+
+class BaseDocumentMixin(BaseModel):
     """
 
     """
