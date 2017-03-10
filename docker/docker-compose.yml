@@ -1,0 +1,12 @@
+version: '2'
+services:
+  web:
+    build:
+      context: .
+      dockerfile: web.dockerfile
+    ports:
+      - '8000:8000'
+    volumes:
+      - ../ssms:/ssms
+  postgres:
+    image: 'postgres:9'
