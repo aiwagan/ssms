@@ -1,14 +1,28 @@
-version: '2'
+version: "3"
 services:
-  web:
+  postgres:
+    container_name: ssms-db
+    image: "postgres:9"
+    environment:
+      - POSTGRES_USER=ssms-user
+      - POSTGRES_PASSWORD=$$$$m$$-u$$er  # actual value is $$m$-user, $$ is used to escape $
+      - POSTGRES_DB=ssms
+      - PGDATA=/var/lib/postgresql/data/ssms
     volumes:
-      - ./ssms:/ssms
+      - ../pgdata:/var/lib/postgresql/data/ssms
     ports:
-      - '8000:8000'
+      - "5432:5432"
+  web:
+    container_name: ssms-web
+    build:
+      context: .
+    volumes:
+      - ../ssms:/ssms
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
     links:
       - postgres
-    build:
-      context: ../
-      dockerfile: ./docker/web.dockerfile
-  postgres:
-    image: 'postgres:9'
+    working_dir: /ssms
+    entrypoint: /ssms/scripts/init.sh
