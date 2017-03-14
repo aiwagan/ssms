@@ -102,3 +102,9 @@ ENV/
 .idea/
 
 # Migrations
+
+# docker files
+pgdata/
+
+# data grip
+.DS_Store

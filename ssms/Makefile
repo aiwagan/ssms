@@ -8,3 +8,5 @@ install:
 	pip-compile ./requires/requirements.txt > $(compiled_requirements)
 	pip install -r $(compiled_requirements)
 
+run:
+	python ./manage.py runserver 0:8000

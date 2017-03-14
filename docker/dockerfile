@@ -1,0 +1,11 @@
+# define base image
+FROM centos:7
+
+# install dependent libraries
+RUN yum install epel-release -y
+RUN yum clean all
+RUN yum groupinstall "Development Tools" -y
+RUN yum install python-pip
+
+# define volumes
+VOLUME /ssms
