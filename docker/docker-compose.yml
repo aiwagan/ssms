@@ -16,13 +16,19 @@ services:
     container_name: ssms-web
     build:
       context: .
+    environment:
+      - PIP_DEFAULT_TIMEOUT=60
+      - SSMS_DATABASE_NAME=ssms
+      - SSMS_DATABASE_USER=ssms-user
+      - SSMS_DATABASE_PASS=$$$$m$$-u$$er
+      - SSMS_DATABASE_HOST=postgres
+      - SSMS_DATABASE_PORT=5432
+      - DJANGO_SETTINGS_MODULE=ssms.settings.local
     volumes:
       - ../ssms:/ssms
     ports:
       - "8000:8000"
-    depends_on:
-      - postgres
     links:
-      - postgres
+      - postgres:postgres
     working_dir: /ssms
     entrypoint: /ssms/scripts/init.sh
