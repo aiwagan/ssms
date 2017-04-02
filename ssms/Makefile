@@ -5,13 +5,14 @@ install:
 	pip install -r requirements.txt
 
 migrate:
-	python ./manage.py makemigrations
-	python ./manage.py migrate_schemas
+	./manage.py makemigrations
+	./manage.py migrate_schemas
 
 run:
-	python ./manage.py runserver 0:8000
+	./manage.py runserver 0:8000
 
 tests:
-	@echo "Coming Soon..."
+	coverage run --source='.' manage.py test customers
+	coverage report
 
 all: clean install migrate

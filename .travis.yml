@@ -18,7 +18,7 @@ before_install:
     - sudo apt-get install libev-dev -y
 
 install:
-    - pip install tox tox-travis
+    - pip install tox tox-travis codecov
 
 before_script:
   - psql -c "CREATE DATABASE SSMS_DB;" -U postgres
