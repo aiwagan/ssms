@@ -5,9 +5,14 @@
 #    pip-compile --output-file requirements.txt requirements.txt
 #
 appdirs==1.4.0
+appnope==0.1.0
+argparse==1.4.0           # via codecov
 backports.shutil-get-terminal-size==1.0.0
 bjoern==1.4.3
+click==6.7
+codecov==2.0.5
 configparser==3.5.0
+coverage==4.3.4
 decorator==4.0.11
 django-extensions==1.7.6
 django-filter==1.0.1
@@ -16,30 +21,38 @@ django-tenant-schemas==1.7.0
 django==1.10.5
 djangorestframework==3.5.4
 enum34==1.1.6
+first==2.0.1
 flake8==3.3.0
 importanize==0.4.1
 ipython-genutils==0.1.0
 ipython==5.3.0
-Markdown==2.6.8
+markdown==2.6.8
 mccabe==0.6.1
 olefile==0.44
 packaging==16.8
 pathlib2==2.2.1
 pexpect==4.2.1
 pickleshare==0.7.4
-Pillow==4.0.0
+pillow==4.0.0
+pip-tools==1.8.2
+pluggy==0.4.0
 prompt-toolkit==1.0.13
 psycopg2==2.6.2
 ptyprocess==0.5.1
+py==1.4.33
 pycodestyle==2.3.1
 pyflakes==1.5.0
-Pygments==2.2.0           # via ipython
+pygments==2.2.0           # via ipython
 pyparsing==2.1.10
 qrcode==5.3
+requests==2.13.0
 scandir==1.5
 simplegeneric==0.8.1
 six==1.10.0
+tox==2.6.0
 traitlets==4.3.2
+travis-tox==0.1.0
+virtualenv==15.1.0
 wcwidth==0.1.7
 
 # The following packages are considered to be unsafe in a requirements file:
