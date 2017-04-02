@@ -21,9 +21,7 @@ install:
     - pip install tox tox-travis codecov
 
 before_script:
-  - psql -c "CREATE USER SSMS_USER WITH PASSWORD 'SSMS_PASS';" -U postgres
-  - psql -c "CREATE DATABASE SSMS_DB WITH OWNER SSMS_USER;" -U postgres
-  - psql -c "GRANT ALL PRIVILEGES ON DATABASE SSMS_DB TO SSMS_USER;" -U postgres
+  - psql -U postgres -c "create database TESTS;"
 
 script:
     - tox -e $TOX_ENV
