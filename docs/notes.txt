@@ -35,5 +35,6 @@ sudo su - postgres
 psql
 DROP DATABASE ssms;
 CREATE DATABASE ssms;
+CREATE USER ssms with PASSWORD "ssms";
 GRANT ALL PRIVILEGES ON DATABASE ssms TO ssms;
 GRANT ALL PRIVILEGES ON DATABASE ssms TO postgres;
