@@ -7,18 +7,23 @@ language:
 python:
     - "2.7"
 
+services:
+  - postgresql
+
 env:
     - TOX_ENV=django-1.10
 
 before_install:
     - sudo apt-get update -y
     - sudo apt-get install libev-dev -y
-    - psql -c "CREATE DATABASE SSMS_DB;"
-    - psql -c "CREATE USER SSMS_USER WITH PASSWORD 'SSMS_PASS';"
-    - psql -c "GRANT ALL PRIVILEGES ON DATABASE SSMS_DB TO SSMS_USER;"
 
 install:
     - pip install tox tox-travis
+
+before_script:
+  - psql -c "CREATE DATABASE SSMS_DB;" -U postgres
+  - psql -c "CREATE USER SSMS_USER WITH PASSWORD 'SSMS_PASS';" -U postgres
+  - psql -c "GRANT ALL PRIVILEGES ON DATABASE SSMS_DB TO SSMS_USER;" -U postgres
 
 script:
     - tox -e $TOX_ENV
