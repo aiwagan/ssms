@@ -12,6 +12,6 @@ run:
 	python ./manage.py runserver 0:8000
 
 tests:
-	@echo "Tests will be configured soon"
+	@echo "Coming Soon..."
 
 all: clean install migrate
