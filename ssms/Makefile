@@ -12,7 +12,7 @@ run:
 	manage.py runserver 0:8000
 
 tests:
-	coverage run --source='.' manage.py test customers
+	coverage run --source='.' manage.py test customers --noinput
 	coverage report
 
 all: clean install migrate
