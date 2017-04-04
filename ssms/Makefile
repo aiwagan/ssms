@@ -2,6 +2,7 @@ clean:
 	find . -type f -name "*.pyc" -delete
 
 install:
+	pip install pip --upgrade
 	pip install -r requirements.txt
 
 configdb:

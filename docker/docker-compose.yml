@@ -4,9 +4,9 @@ services:
     container_name: ssms-db
     image: "postgres:9"
     environment:
-      - POSTGRES_USER=ssms-user
-      - POSTGRES_PASSWORD=$$$$m$$-u$$er  # actual value is $$m$-user, $$ is used to escape $
-      - POSTGRES_DB=ssms
+      - POSTGRES_USER=ssms_user
+      - POSTGRES_PASSWORD=ssms_pass
+      - POSTGRES_DB=ssms_db
       - PGDATA=/var/lib/postgresql/data/ssms
     volumes:
       - ../pgdata:/var/lib/postgresql/data/ssms
@@ -19,8 +19,8 @@ services:
     environment:
       - PIP_DEFAULT_TIMEOUT=60
       - SSMS_DATABASE_NAME=ssms
-      - SSMS_DATABASE_USER=ssms-user
-      - SSMS_DATABASE_PASS=$$$$m$$-u$$er
+      - SSMS_DATABASE_USER=ssms_user
+      - SSMS_DATABASE_PASS=ssms_pass
       - SSMS_DATABASE_HOST=postgres
       - SSMS_DATABASE_PORT=5432
       - DJANGO_SETTINGS_MODULE=ssms.settings.local
